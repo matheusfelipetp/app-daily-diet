@@ -33,8 +33,8 @@ export const Title = styled.Text`
 
 export const BackButton = styled.TouchableOpacity`
   position: absolute;
-  top: 50;
-  left: 24;
+  top: 50px;
+  left: 24px;
 `;
 
 export const BackIcon = styled(MaterialIcons).attrs(({ theme }) => ({
