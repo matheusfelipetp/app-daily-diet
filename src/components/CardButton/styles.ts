@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import styled, { css } from 'styled-components/native';
+import styled from 'styled-components/native';
 
 export type ButtonStyleProps = 'PRIMARY' | 'SECONDARY';
 
@@ -27,22 +27,4 @@ export const Icon = styled(MaterialIcons).attrs<ButtonProps>(
   position: absolute;
   top: 10px;
   right: 10px;
-`;
-
-export const Title = styled.Text`
-  ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.XXL}px;
-    font-family: ${theme.FONT_FAMILY.BOLD};
-    color: ${theme.COLORS.GRAY_700};
-  `}
-
-  margin-bottom: 4px
-`;
-
-export const Subtitle = styled.Text`
-  ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.SM}px;
-    font-family: ${theme.FONT_FAMILY.REGULAR};
-    color: ${theme.COLORS.GRAY_500};
-  `}
 `;

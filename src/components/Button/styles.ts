@@ -6,7 +6,7 @@ export const Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_500};
+  background-color: ${({ theme }) => theme.COLORS.GRAY_600};
   border-radius: 6px;
   height: 50px;
 `;
