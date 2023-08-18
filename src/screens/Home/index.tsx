@@ -18,9 +18,10 @@ import {
 } from './styles';
 
 export type PropsFood = {
+  id: string;
   name: string;
   description: string;
-  date: Date;
+  date: string;
   hour: string;
   isDiet: boolean;
 };
@@ -30,8 +31,22 @@ type ListProps = {
   data: PropsFood[];
 };
 
+const example = {
+  title: '16.08.2023',
+  data: [
+    {
+      id: '123',
+      name: 'food',
+      description: 'food description',
+      date: '20/04/2023',
+      hour: '12:00',
+      isDiet: true,
+    },
+  ],
+};
+
 export function Home() {
-  const [foods, setFoods] = useState<ListProps[]>([]);
+  const [foods, setFoods] = useState<ListProps[]>([example]);
 
   const navigation = useNavigation();
 
@@ -41,6 +56,10 @@ export function Home() {
 
   const handleNewFood = () => {
     navigation.navigate('newFood');
+  };
+
+  const handleFood = (id: string) => {
+    navigation.navigate('food', { id });
   };
 
   return (
@@ -63,8 +82,14 @@ export function Home() {
 
       <SectionList
         sections={foods}
-        keyExtractor={(item, index) => item.name + index}
-        renderItem={({ item }) => <CardFood food={item} />}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <CardFood
+            key={item.id}
+            food={item}
+            onPress={() => handleFood(item.id)}
+          />
+        )}
         renderSectionHeader={({ section: { title } }) => (
           <ListTitle title={title} />
         )}

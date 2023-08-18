@@ -2,7 +2,9 @@ import { Button } from '@components/Button';
 import { DatePicker } from '@components/DatePicker';
 import { Input } from '@components/Input';
 import { StatusButton } from '@components/StatusButton';
-import { useState } from 'react';
+import { formattedDate } from '@utils/formattedDate';
+import { formattedHour } from '@utils/formattedHour';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   Container,
   ContainerForm,
@@ -10,24 +12,58 @@ import {
   LabelStatus,
 } from './styles';
 
-export function RegisterForm() {
-  const [isPrimarySelected, setIsPrimarySelected] = useState(false);
+type PropsRegisterForm = {
+  handleIsFinished: () => void;
+  isInDiet: boolean;
+  setIsInDiet: Dispatch<SetStateAction<boolean>>;
+};
+
+export function RegisterForm({
+  handleIsFinished,
+  isInDiet,
+  setIsInDiet,
+}: PropsRegisterForm) {
+  const [foodName, setFoodName] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [hour, setHour] = useState(new Date());
+
+  const [isPrimarySelected, setIsPrimarySelected] = useState(true);
   const [isSecondarySelected, setIsSecondarySelected] = useState(false);
 
   const handlePrimaryButton = () => {
     setIsPrimarySelected(!isPrimarySelected);
     setIsSecondarySelected(false);
+    setIsInDiet(true);
   };
 
   const handleSecondaryButton = () => {
     setIsSecondarySelected(!isSecondarySelected);
     setIsPrimarySelected(false);
+    setIsInDiet(false);
+  };
+
+  const handleSubmit = () => {
+    console.log({
+      foodName,
+      description,
+      date: formattedDate(date),
+      hour: formattedHour(hour),
+      isInDiet,
+    });
+
+    handleIsFinished();
   };
 
   return (
     <Container>
       <ContainerForm>
-        <Input label="Nome" placeholder="Digite o nome da refeição" />
+        <Input
+          label="Nome"
+          placeholder="Digite o nome da refeição"
+          value={foodName}
+          onChangeText={setFoodName}
+        />
 
         <Input
           label="Descrição"
@@ -35,14 +71,23 @@ export function RegisterForm() {
           size="LARGE"
           multiline
           numberOfLines={4}
+          value={description}
+          onChangeText={setDescription}
         />
 
         <ContainerPicker>
-          <DatePicker label="Data" placeholder="Data da refeição" />
+          <DatePicker
+            label="Data"
+            placeholder="Data da refeição"
+            value={date}
+            setValue={setDate}
+          />
           <DatePicker
             label="Hora"
             modePicker="time"
             placeholder="Hora da refeição"
+            value={hour}
+            setValue={setHour}
           />
         </ContainerPicker>
 
@@ -60,7 +105,7 @@ export function RegisterForm() {
         </ContainerPicker>
       </ContainerForm>
 
-      <Button text="Cadastrar refeição" />
+      <Button text="Cadastrar refeição" onPress={handleSubmit} />
     </Container>
   );
 }

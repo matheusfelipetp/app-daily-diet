@@ -2,10 +2,9 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
 import { formattedDate } from '@utils/formattedDate';
-import { useEffect, useState } from 'react';
-import { TextInput } from 'react-native';
-import { Container, DatePickerStyled, InputStyled, TextLabel } from './styles';
 import { formattedHour } from '@utils/formattedHour';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Container, DatePickerStyled, InputStyled, TextLabel } from './styles';
 
 type modeTypes = 'date' | 'time';
 
@@ -13,14 +12,17 @@ type DatePickerProps = {
   label: string;
   placeholder: string;
   modePicker?: modeTypes;
+  value: Date;
+  setValue: Dispatch<SetStateAction<Date>>;
 };
 
 export function DatePicker({
   label,
   placeholder,
   modePicker = 'date',
+  value,
+  setValue,
 }: DatePickerProps) {
-  const [value, setValue] = useState(new Date());
   const [mode, setMode] = useState<modeTypes>(modePicker);
   const [show, setShow] = useState(false);
   const [valueFormatted, setValueFormatted] = useState('');
