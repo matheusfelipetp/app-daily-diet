@@ -13,6 +13,13 @@ export const TextLabel = styled.Text`
   `}
 `;
 
+export const InputStyled = styled.TextInput`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.GRAY_700};
+    font-family: ${theme.FONT_FAMILY.REGULAR};
+  `}
+`;
+
 export const DatePickerStyled = styled.TouchableOpacity`
   ${({ theme }) => css`
     border: 1px solid ${theme.COLORS.GRAY_300};
