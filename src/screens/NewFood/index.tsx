@@ -1,8 +1,9 @@
 import { FinishedRegisterFood } from '@components/FinishedRegisterFood';
 import { Header } from '@components/Header';
-import { RegisterForm } from '@components/RegisterForm';
+import { Form } from '@components/Form';
 import { useState } from 'react';
 import { Container } from './styles';
+import { foodCreate } from '@storage/foods/foodCreate';
 
 export function NewFood() {
   const [isFinished, setIsFinished] = useState(false);
@@ -19,8 +20,8 @@ export function NewFood() {
       {isFinished ? (
         <FinishedRegisterFood isInDiet={isInDiet} />
       ) : (
-        <RegisterForm
-          handleIsFinished={handleIsFinished}
+        <Form
+          handleSubmit={handleIsFinished}
           isInDiet={isInDiet}
           setIsInDiet={setIsInDiet}
         />

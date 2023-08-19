@@ -10,7 +10,7 @@ export function Header({ title, type = 'NORMAL' }: HeaderProps) {
   const navigation = useNavigation();
 
   const handleBack = () => {
-    navigation.navigate('home');
+    navigation.goBack();
   };
 
   return (

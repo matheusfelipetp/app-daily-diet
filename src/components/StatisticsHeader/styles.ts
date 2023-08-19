@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const Container = styled(SafeAreaView)<Props>`
-  padding: 32px 24px;
+  padding: 32px 24px 0;
   background-color: ${({ theme, type }) =>
     type === 'PRIMARY' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
   position: relative;
@@ -16,7 +16,7 @@ export const Container = styled(SafeAreaView)<Props>`
 
 export const BackButton = styled.TouchableOpacity`
   position: absolute;
-  top: 40px;
+  top: 60px;
   left: 24px;
 `;
 

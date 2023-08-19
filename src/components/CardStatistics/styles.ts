@@ -13,7 +13,7 @@ type ContainerCardProps = {
 };
 
 export const Container = styled.View<ContainerProps>`
-  width: ${({ size }) => (size === 'LG' ? '100%' : '165px')};
+  width: ${({ size }) => (size === 'LG' ? '100%' : '48%')};
   background-color: ${({ theme, type }) =>
     type === 'NORMAL'
       ? theme.COLORS.GRAY_200

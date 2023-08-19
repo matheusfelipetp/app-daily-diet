@@ -4,26 +4,35 @@ import { Input } from '@components/Input';
 import { StatusButton } from '@components/StatusButton';
 import { formattedDate } from '@utils/formattedDate';
 import { formattedHour } from '@utils/formattedHour';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   Container,
   ContainerForm,
   ContainerPicker,
   LabelStatus,
 } from './styles';
+import { PropsFood } from '@screens/Home';
+import { foodCreate } from '@storage/foods/foodCreate';
+import uuid from 'react-native-uuid';
+import { Alert } from 'react-native';
+import { foodUpdate } from '@storage/foods/foodUpdate';
 
-type PropsRegisterForm = {
-  handleIsFinished: () => void;
+type PropsForm = {
+  handleSubmit: () => void;
   isInDiet: boolean;
   setIsInDiet: Dispatch<SetStateAction<boolean>>;
+  isEdit?: boolean;
+  food?: PropsFood;
 };
 
-export function RegisterForm({
-  handleIsFinished,
+export function Form({
+  handleSubmit,
   isInDiet,
   setIsInDiet,
-}: PropsRegisterForm) {
-  const [foodName, setFoodName] = useState('');
+  isEdit,
+  food,
+}: PropsForm) {
+  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [hour, setHour] = useState(new Date());
@@ -43,17 +52,60 @@ export function RegisterForm({
     setIsInDiet(false);
   };
 
-  const handleSubmit = () => {
-    console.log({
-      foodName,
-      description,
-      date: formattedDate(date),
-      hour: formattedHour(hour),
-      isInDiet,
-    });
+  const handleSubmitForm = async () => {
+    if (name && description && date && hour) {
+      const foodData = {
+        name,
+        description,
+        date: formattedDate(date),
+        hour: formattedHour(hour),
+        isDiet: isInDiet,
+      };
 
-    handleIsFinished();
+      if (isEdit) {
+        await foodUpdate(food?.id as string, foodData);
+      } else {
+        const newFood = { ...foodData, id: uuid.v4() as string };
+        await foodCreate(newFood);
+      }
+
+      handleSubmit();
+    } else {
+      Alert.alert(
+        'Campos obrigatórios',
+        'É necessário preencher todos os campos',
+      );
+    }
   };
+
+  useEffect(() => {
+    if (isEdit && food) {
+      setName(food.name);
+      setDescription(food.description);
+
+      const dateParts = food.date.split('/');
+      const year = parseInt(dateParts[2], 10);
+      const month = parseInt(dateParts[1], 10) - 1;
+      const day = parseInt(dateParts[0], 10);
+      const dateFormatted = new Date(year, month, day);
+
+      setDate(dateFormatted);
+
+      const [hours, minutes] = food.hour.split(':');
+      dateFormatted.setHours(parseInt(hours, 10));
+      dateFormatted.setMinutes(parseInt(minutes, 10));
+
+      setHour(dateFormatted);
+
+      if (food.isDiet) {
+        setIsPrimarySelected(true);
+        setIsSecondarySelected(false);
+      } else {
+        setIsPrimarySelected(false);
+        setIsSecondarySelected(true);
+      }
+    }
+  }, [isEdit, food]);
 
   return (
     <Container>
@@ -61,8 +113,8 @@ export function RegisterForm({
         <Input
           label="Nome"
           placeholder="Digite o nome da refeição"
-          value={foodName}
-          onChangeText={setFoodName}
+          value={name}
+          onChangeText={setName}
         />
 
         <Input
@@ -105,7 +157,10 @@ export function RegisterForm({
         </ContainerPicker>
       </ContainerForm>
 
-      <Button text="Cadastrar refeição" onPress={handleSubmit} />
+      <Button
+        text={isEdit ? 'Salvar alterações' : 'Cadastrar refeição'}
+        onPress={handleSubmitForm}
+      />
     </Container>
   );
 }

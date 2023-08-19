@@ -7,6 +7,9 @@ export declare global {
       food: {
         id: string;
       };
+      editFood: {
+        id: string;
+      };
     }
   }
 }

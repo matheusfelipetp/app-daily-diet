@@ -25,7 +25,7 @@ export const InputStyled = styled.TextInput<InputProps>`
     font-size: ${theme.FONT_SIZE.SM}px;
     font-family: ${theme.FONT_FAMILY.REGULAR};
     height: ${size === 'NORMAL' ? '50px' : '100px'};
-    padding-bottom: ${size === 'NORMAL' ? 0 : '50px'};
+    padding-top: ${size === 'NORMAL' ? 0 : '16px'};
   `}
 
   border-radius: 6px;
