@@ -15,6 +15,7 @@ Esse projeto consiste em um aplicativo mobile, cujo objetivo é o gerenciamento 
 - Editar uma refeição
 - Remover uma refeição da listagem
 - Visualizar todas as refeições em seções
+- Visualizar a maior sequência de refeições dentro da dieta
 - Mostrar as estatísticas do progresso da dieta
 - Navegação entre telas em pilha
 - Armazenamento local das refeições
